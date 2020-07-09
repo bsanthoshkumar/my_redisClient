@@ -1,0 +1,23 @@
+{
+  "name": "redisClient",
+  "version": "1.0.0",
+  "description": "",
+  "main": "redis.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bsanthoshkumar/redisClient.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bsanthoshkumar/redisClient/issues"
+  },
+  "homepage": "https://github.com/bsanthoshkumar/redisClient#readme",
+  "dependencies": {
+    "net": "^1.0.2"
+  }
+}
