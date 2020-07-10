@@ -18,12 +18,28 @@ const bulkStringParser = (response, index, responses) => {
   return 2;
 };
 
+const arrayParser = (response, index, responses) => {
+  const length = +response[index].slice(1);
+  const tempResponses = [];
+  let idx = index + 1;
+  while (tempResponses.length != length) {
+    const symbol = response[idx][0];
+    if (symbol in typeParser) {
+      move = typeParser[symbol](response, idx, tempResponses);
+    }
+    idx += move;
+  }
+
+  responses.push({ res: tempResponses.map(({ res, err }) => res) });
+  return idx - index;
+};
+
 const typeParser = {
   '+': stringParser,
   '-': errorParser,
   ':': integerParser,
   $: bulkStringParser,
-  // '*': arrayParser,
+  '*': arrayParser,
 };
 
 const parseResponse = (response) => {
@@ -32,7 +48,7 @@ const parseResponse = (response) => {
   let index = 0;
   while (index < splitted.length) {
     const symbol = splitted[index][0];
-    if (Object.keys(typeParser).includes(symbol)) {
+    if (symbol in typeParser) {
       move = typeParser[symbol](splitted, index, responses);
     }
     index += move;

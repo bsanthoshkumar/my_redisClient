@@ -55,6 +55,16 @@ class RedisClient {
     this.#sendRequest(command, callback);
   }
 
+  incr(key, callback) {
+    const command = `INCR ${key}\r\n`;
+    this.#sendRequest(command, callback);
+  }
+
+  keys(key, callback) {
+    const command = `KEYS ${key}\r\n`;
+    this.#sendRequest(command, callback);
+  }
+
   close(callback) {
     const interval = setInterval(() => {
       if (!this.callbacks.length) {

@@ -9,5 +9,8 @@ client.ping((err, res) => {
 
 client.set('name', 'santhosh', (err, res) => console.log(res));
 client.get('name', (err, res) => console.log(res));
+client.incr('number', (err, res) => console.log(res));
+client.get('number', (err, res) => console.log(res));
+client.keys('*', (err, res) => console.log(res));
 
 client.close();
