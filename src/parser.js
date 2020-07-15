@@ -56,4 +56,13 @@ const parseResponse = (response) => {
   return responses;
 };
 
-module.exports = { parseResponse };
+const parseValue = (values) => {
+  let joinedValues = JSON.stringify(values);
+  if (typeof values === 'object') {
+    joinedValues = values.reduce((joinedValues, value) => `${joinedValues} ${value}`);
+  }
+
+  return joinedValues;
+};
+
+module.exports = { parseResponse, parseValue };

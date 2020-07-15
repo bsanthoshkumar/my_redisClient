@@ -1,11 +1,11 @@
-const { parseResponse } = require('./parser');
+const { parseResponse, parseValue } = require('./parser');
 
 class RedisClient {
   constructor(socket, options) {
     this.socket = socket;
     this.options = options;
     this.callbacks = [];
-    this.socket.on('readable', this.#gotResponse.bind(this));
+    this.socket.on('readable', this.#gotResponse);
     this.socket.setEncoding('utf-8');
     options.db && this.select(options.db, (err, res) => console.log(res));
   }
@@ -46,7 +46,7 @@ class RedisClient {
   }
 
   set(key, value, callback) {
-    const command = `SET ${key} "${value}"\r\n`;
+    const command = `SET ${key} ${value}\r\n`;
     this.#sendRequest(command, callback);
   }
 
@@ -62,6 +62,31 @@ class RedisClient {
 
   keys(key, callback) {
     const command = `KEYS ${key}\r\n`;
+    this.#sendRequest(command, callback);
+  }
+
+  lpush(key, value, callback) {
+    const command = `LPUSH ${key} ${parseValue(value)}\r\n`;
+    this.#sendRequest(command, callback);
+  }
+
+  lpop(key, value, callback) {
+    const command = `LPOP${key} ${value}\r\n`;
+    this.#sendRequest(command, callback);
+  }
+
+  rpush(key, value, callback) {
+    const command = `RPUSH ${key} ${parseValue(value)}\r\n`;
+    this.#sendRequest(command, callback);
+  }
+
+  rpop(key, value, callback) {
+    const command = `RPOP ${key} ${value}\r\n`;
+    this.#sendRequest(command, callback);
+  }
+
+  lrange(key, start, end, callback) {
+    const command = `LRANGE ${key} ${start} ${end}\r\n`;
     this.#sendRequest(command, callback);
   }
 
